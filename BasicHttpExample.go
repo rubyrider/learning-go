@@ -1,6 +1,8 @@
 package main
 
 import (
+	serializers "./serializers"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -17,5 +19,12 @@ func main() {
 }
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello World\n")
+	response := serializers.RootResponse{Message: "Hello World"}
+	data, err := json.Marshal(response)
+
+	if err != nil {
+		panic("Bad Request")
+	}
+
+	fmt.Fprint(w, string(data))
 }
